@@ -1,6 +1,6 @@
 package goodpartner.be.domain.chat.controller;
 
-import goodpartner.be.domain.chat.entity.Chat;
+import goodpartner.be.domain.chat.application.dto.response.ChatResponse;
 import goodpartner.be.domain.chat.service.ChatService;
 import goodpartner.be.global.common.response.ResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -23,16 +22,16 @@ public class ChatController {
 
     //1.사용자 채팅 내역 조회
     @GetMapping("/chats")
-    public ResponseEntity<ResponseDto<List<Chat>>> getUserChatHistory(@AuthenticationPrincipal UUID userId){
-        List<Chat> userChatHistory = chatService.getUserChatHistory(userId);
+    public ResponseEntity<ResponseDto<List<ChatResponse>>> getUserChatHistory(@AuthenticationPrincipal String userId){
+        List<ChatResponse> userChatHistory = chatService.getUserChatHistory(userId);
         return ResponseEntity.ok(ResponseDto.response(200,"사용자 채팅 내역 조회 성공",userChatHistory));
     }
 
     //2.사용자 챗봇 질문하기
     @PostMapping("/chats")
-    public ResponseEntity<ResponseDto<Chat>> askQuestion(@AuthenticationPrincipal UUID userId,@RequestParam String message){
-        Chat chat = chatService.saveChatAndGenerateResponse(userId, message);
-        return ResponseEntity.ok(ResponseDto.response(200,"사용자 챗봇 질문 및 응답 성공",chat));
+    public ResponseEntity<ResponseDto<String>> askQuestion(@AuthenticationPrincipal String userId,@RequestParam String message){
+        chatService.saveChatAndGenerateResponse(userId, message);
+        return ResponseEntity.ok(ResponseDto.response(200,"사용자 챗봇 질문 및 응답 성공"));
     }
 
     //3.누적 질문수 조회
@@ -44,8 +43,8 @@ public class ChatController {
 
     //4.최근 질문 3개 조회
     @GetMapping("/chats/latest")
-    public ResponseEntity<ResponseDto<List<Chat>>> getLatestChats(){
-        List<Chat> latestChats = chatService.getLatestChats();
+    public ResponseEntity<ResponseDto<List<ChatResponse>>> getLatestChats(@AuthenticationPrincipal String userId){
+        List<ChatResponse> latestChats = chatService.getLatestChats(userId);
         return ResponseEntity.ok(ResponseDto.response(200,"최근 질문 3개 조회 성공",latestChats));
     }
 }

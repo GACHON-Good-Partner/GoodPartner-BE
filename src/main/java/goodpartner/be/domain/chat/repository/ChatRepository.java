@@ -11,5 +11,9 @@ import java.util.UUID;
 public interface ChatRepository extends JpaRepository<Chat,Long> {
     List<Chat> findChatHistoryByUserId(UUID userId);
 
+    Long countByStatus(Chat.Status status);
+
     List<Chat> findTop3ByStatusOrderByCreatedAtDesc(Chat.Status status);
+
+    List<Chat> findTop3ByStatusAndUserIdOrderByCreatedAtDesc(Chat.Status status, UUID userId);
 }
