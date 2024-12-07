@@ -25,3 +25,8 @@ auth:
     grant_type: ${KAKAO_GRANT_TYPE}
     token_uri: ${KAKAO_TOKEN_URI}
     user_info_uri: ${KAKAO_USER_INFO_URI}
+
+openai:
+  model: ${OPENAI_MODEL}
+  secret-key: ${OPENAI_SECRET_KEY}
+  chat-completions-url: ${OPENAI_CHAT_COMPLETIONS_URL}
