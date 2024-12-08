@@ -10,7 +10,6 @@ import goodpartner.be.domain.user.service.UserSaveService;
 import goodpartner.be.domain.user.service.UserUpdateService;
 import goodpartner.be.global.auth.jwt.JwtProvider;
 import goodpartner.be.global.auth.kakao.KakaoAuthService;
-import goodpartner.be.global.auth.kakao.dto.KakaoTokenResponse;
 import goodpartner.be.global.auth.kakao.dto.KakaoUserInfoResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -35,8 +34,8 @@ public class UserUsecase {
 
     @Transactional
     public SocialLoginResponse login(SocialLoginRequest dto) {
-        KakaoTokenResponse tokenResponse = kakaoAuthService.getKakaoToken(dto.authCode());
-        KakaoUserInfoResponse userInfo = kakaoAuthService.getUserInfo(tokenResponse.access_token());
+//        KakaoTokenResponse tokenResponse = kakaoAuthService.getKakaoToken(dto.authCode());
+        KakaoUserInfoResponse userInfo = kakaoAuthService.getUserInfo(dto.authCode());
 
         if (existUser(userInfo)) {
             return login(userInfo);
