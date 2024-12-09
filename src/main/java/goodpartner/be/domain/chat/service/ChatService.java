@@ -2,7 +2,6 @@ package goodpartner.be.domain.chat.service;
 
 import goodpartner.be.domain.chat.application.OpenAIRecommendationProvider;
 import goodpartner.be.domain.chat.application.dto.response.ChatResponse;
-import goodpartner.be.domain.chat.application.dto.response.OpenAIResponse;
 import goodpartner.be.domain.chat.entity.Chat;
 import goodpartner.be.domain.chat.repository.ChatRepository;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +29,7 @@ public class ChatService {
 
     //2.사용자 챗봇 질문 저장과 chatGPT 응답 생성
     @Transactional
-    public void saveChatAndGenerateResponse(String userId, String message) {
+    public ChatResponse saveChatAndGenerateResponse(String userId, String message) {
         // 사용자 질문 저장
         Chat userChat = Chat.builder()
                 .userId(UUID.fromString(userId))
@@ -39,17 +38,28 @@ public class ChatService {
                 .build();
         chatRepository.save(userChat);
 
-        // OpenAI 호출 및 응답 생성
-        OpenAIResponse response = openAIRecommendationProvider.getRecommendationWithPrompt(message);
-        String aiResponseMessage = response.choices().get(0).message().getContent();
-
-        // AI 응답 저장
-        Chat responseChat = Chat.builder()
+        Chat response = Chat.builder()
                 .userId(UUID.fromString(userId))
-                .message(aiResponseMessage)
+                .message(message)
                 .status(Chat.Status.RESPONSE)
                 .build();
-        chatRepository.save(responseChat);
+        chatRepository.save(response);
+
+        return ChatResponse.from(response);
+        /*
+        todo API 테스트 후 원복하기
+         */
+        // OpenAI 호출 및 응답 생성
+//        OpenAIResponse response = openAIRecommendationProvider.getRecommendationWithPrompt(message);
+//        String aiResponseMessage = response.choices().get(0).message().getContent();
+//
+//        // AI 응답 저장
+//        Chat responseChat = Chat.builder()
+//                .userId(UUID.fromString(userId))
+//                .message(aiResponseMessage)
+//                .status(Chat.Status.RESPONSE)
+//                .build();
+//        chatRepository.save(responseChat);
     }
 
     //3.사용자 누적 질문수 조회

@@ -29,9 +29,9 @@ public class ChatController {
 
     //2.사용자 챗봇 질문하기
     @PostMapping("/chats")
-    public ResponseEntity<ResponseDto<String>> askQuestion(@AuthenticationPrincipal String userId,@RequestParam String message){
-        chatService.saveChatAndGenerateResponse(userId, message);
-        return ResponseEntity.ok(ResponseDto.response(200,"사용자 챗봇 질문 및 응답 성공"));
+    public ResponseEntity<ResponseDto<ChatResponse>> askQuestion(@AuthenticationPrincipal String userId,@RequestParam String message){
+        ChatResponse response = chatService.saveChatAndGenerateResponse(userId, message);
+        return ResponseEntity.ok(ResponseDto.response(200,"사용자 챗봇 질문 및 응답 성공", response));
     }
 
     //3.누적 질문수 조회
