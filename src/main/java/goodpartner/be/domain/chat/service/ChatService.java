@@ -2,6 +2,7 @@ package goodpartner.be.domain.chat.service;
 
 import goodpartner.be.domain.chat.application.OpenAIRecommendationProvider;
 import goodpartner.be.domain.chat.application.dto.response.ChatResponse;
+import goodpartner.be.domain.chat.application.dto.response.OpenAIResponse;
 import goodpartner.be.domain.chat.entity.Chat;
 import goodpartner.be.domain.chat.repository.ChatRepository;
 import lombok.RequiredArgsConstructor;
