@@ -2,4 +2,5 @@ rootProject.name = 'be'
 include 'user'
 include 'chat'
 include 'global'
+include 'gateway'
 

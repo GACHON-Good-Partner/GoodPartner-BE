@@ -2,13 +2,6 @@ spring:
   profiles:
     active: local
 
-springdoc:
-  use-fqn: true
-  swagger-ui:
-    operations-sorter: method
-    tags-sorter: alpha
-    display-request-duration: true
-
 jwt:
   key: ${JWT_KEY}
   access:

@@ -4,6 +4,10 @@ spring:
 
 springdoc:
   use-fqn: true
+  api-docs:
+    version: openapi_3_1
+    enabled: true
+    path: /chats/v3/api-docs
   swagger-ui:
     operations-sorter: method
     tags-sorter: alpha
@@ -21,3 +25,4 @@ openai:
   model: ${OPENAI_MODEL}
   secret-key: ${OPENAI_SECRET_KEY}
   chat-completions-url: ${OPENAI_CHAT_COMPLETIONS_URL}
+

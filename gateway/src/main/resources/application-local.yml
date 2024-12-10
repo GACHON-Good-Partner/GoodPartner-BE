@@ -1,0 +1,41 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "http://localhost:3000"
+            allowedMethods:
+              - "GET"
+              - "POST"
+              - "PATCH"
+              - "DELETE"
+              - "OPTIONS"
+            allowedHeaders:
+              - "*"
+            allowCredentials: true
+
+      routes:
+        - id: user-service
+          uri: http://localhost:8081
+          predicates:
+            - Path=/users/**
+        - id: chat-service
+          uri: http://localhost:8082
+          predicates:
+            - Path=/chats/**
+
+springdoc:
+  swagger-ui:
+    use-root-path: true
+    urls[0]:
+      name: USER API
+      url: http://localhost:8080/users/v3/api-docs
+    urls[1]:
+      name: CHAT API
+      url: http://localhost:8080/chats/v3/api-docs

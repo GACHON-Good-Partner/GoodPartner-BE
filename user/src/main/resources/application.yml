@@ -9,3 +9,10 @@ auth:
     grant_type: ${KAKAO_GRANT_TYPE}
     token_uri: ${KAKAO_TOKEN_URI}
     user_info_uri: ${KAKAO_USER_INFO_URI}
+
+springdoc:
+  use-fqn: true
+  swagger-ui:
+    operations-sorter: method
+    tags-sorter: alpha
+    display-request-duration: true
