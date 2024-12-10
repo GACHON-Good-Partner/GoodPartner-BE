@@ -50,16 +50,16 @@ public class ChatService {
         todo API 테스트 후 원복하기
          */
         // OpenAI 호출 및 응답 생성
-//        OpenAIResponse response = openAIRecommendationProvider.getRecommendationWithPrompt(message);
-//        String aiResponseMessage = response.choices().get(0).message().getContent();
-//
-//        // AI 응답 저장
-//        Chat responseChat = Chat.builder()
-//                .userId(UUID.fromString(userId))
-//                .message(aiResponseMessage)
-//                .status(Chat.Status.RESPONSE)
-//                .build();
-//        chatRepository.save(responseChat);
+       OpenAIResponse response = openAIRecommendationProvider.getRecommendationWithPrompt(message);
+       String aiResponseMessage = response.choices().get(0).message().getContent();
+
+       // AI 응답 저장
+       Chat responseChat = Chat.builder()
+               .userId(UUID.fromString(userId))
+               .message(aiResponseMessage)
+               .status(Chat.Status.RESPONSE)
+               .build();
+       chatRepository.save(responseChat);
     }
 
     //3.사용자 누적 질문수 조회
