@@ -38,14 +38,6 @@ public class ChatService {
                 .build();
         chatRepository.save(userChat);
 
-        Chat response = Chat.builder()
-                .userId(UUID.fromString(userId))
-                .message(message)
-                .status(Chat.Status.RESPONSE)
-                .build();
-        chatRepository.save(response);
-
-        return ChatResponse.from(response);
         /*
         todo API 테스트 후 원복하기
          */
@@ -60,6 +52,8 @@ public class ChatService {
                .status(Chat.Status.RESPONSE)
                .build();
        chatRepository.save(responseChat);
+
+       return ChatResponse.from(responseChat);
     }
 
     //3.사용자 누적 질문수 조회
