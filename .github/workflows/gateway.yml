@@ -1,10 +1,16 @@
-name: Good Partner cicd
+name: Deploy GATEWAY Service
 
 on:
-  push:
-    branches: [ "main" ]
   pull_request:
-    branches: [ "main" ]
+    branches:
+      - main
+    paths:
+      - "gateway/**"
+  push:
+    branches:
+      - main
+    paths:
+      - "gateway/**" # GATEWAY 서비스 관련 파일 변경 시 트리거
 
 jobs:
   build:
@@ -65,12 +71,12 @@ jobs:
       - name: Build with Gradle Wrapper
         run: ./gradlew build -x test
 
-      # 도커 이미지 생성 후 이미지 push
-      - name: Docker build & push to dev
+
+      - name: Docker build & push
         run: |
           docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/gp .
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/gp
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/gp-gateway -f gateway/Dockerfile gateway/
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/gp-gateway
 
       # EC2 ssh 연결 후 이미지 pull
       - name: Deploy to server
@@ -81,17 +87,4 @@ jobs:
           key: ${{ secrets.EC2_PEM }}
           envs: GITHUB_SHA
           script: |
-            EXISTING_CONTAINER_ID=$(sudo docker ps -q -f "status=running")
-            if [ ! -z "$EXISTING_CONTAINER_ID" ]; then
-              sudo docker stop $EXISTING_CONTAINER_ID
-              sudo docker rm $EXISTING_CONTAINER_ID
-            fi
-
-            EXISTING_CONTAINER_ID=$(sudo docker ps -q -f "status=exited")
-            if [ ! -z "$EXISTING_CONTAINER_ID" ]; then
-              sudo docker rm $EXISTING_CONTAINER_ID
-            fi
-
-            sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/gp
-            sudo docker run --network host --name spring -d -p 8080:8080 --env-file ./gp.env -e TZ=Asia/Seoul ${{ secrets.DOCKERHUB_USERNAME }}/gp
-            sudo docker image prune -a -f
+            ./deploy_gateway.sh

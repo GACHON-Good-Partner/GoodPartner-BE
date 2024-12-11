@@ -1,12 +1,16 @@
-name: Deploy USER Service
+name: Deploy CHAT Service
 
 on:
   pull_request:
+    branches:
+      - main
     paths:
       - "chat/**"
   push:
+    branches:
+      - main
     paths:
-      - "chat/**" # USER 서비스 관련 파일 변경 시 트리거
+      - "chat/**" # CHAT 서비스 관련 파일 변경 시 트리거
 
 jobs:
   build:
@@ -71,7 +75,7 @@ jobs:
       - name: Docker build & push
         run: |
           docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/gp-chat .
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/gp-chat -f chat/Dockerfile chat/
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/gp-chat
 
       # EC2 ssh 연결 후 이미지 pull
