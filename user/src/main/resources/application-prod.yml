@@ -13,3 +13,11 @@ spring:
       ddl-auto: update
 
 
+jwt:
+  key: ${JWT_KEY}
+  access:
+    expiration: ${ACCESS_EXP}
+    header: ${ACCESS_HEAD}
+  refresh:
+    expiration: ${REFRESH_EXP}
+    header: ${REFRESH_HEAD}
