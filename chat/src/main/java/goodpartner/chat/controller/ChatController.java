@@ -48,4 +48,9 @@ public class ChatController {
         List<ChatResponse> latestChats = chatService.getLatestChats(userId);
         return ResponseEntity.ok(ResponseDto.response(200,"최근 질문 3개 조회 성공",latestChats));
     }
+
+    @GetMapping("/chats/health-check")
+    public ResponseEntity<String> healthCheck(){
+        return ResponseEntity.ok("health-check");
+    }
 }
