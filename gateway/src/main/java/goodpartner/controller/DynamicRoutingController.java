@@ -39,6 +39,11 @@ public class DynamicRoutingController {
         this.applicationContext = applicationContext;
     }
 
+    @GetMapping("/health-check")
+    public ResponseEntity<String> healthCheck() {
+        return ResponseEntity.ok("health-check");
+    }
+
     @PostMapping("/update-routes")
     public Mono<ResponseEntity<String>> updateRoutes(@RequestBody Map<String, String> environmentMap, @RequestHeader("API-KEY") String apiKey) {
         if(apiKey == null || apiKey.isEmpty() || !apiKey.equals(validApiKey)) {
