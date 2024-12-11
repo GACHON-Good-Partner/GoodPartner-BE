@@ -80,9 +80,9 @@ public class DynamicRoutingController {
     private String determineServiceUrl(String serviceType, String environment) {
         switch (serviceType) {
             case "users":
-                return environment.equalsIgnoreCase("BLUE") ? "http://localhost:8081" : "http://localhost:9081";
+                return environment.equalsIgnoreCase("BLUE") ? "http://user-BLUE:8080" : "http://user-GREEN:8080";
             case "chats":
-                return environment.equalsIgnoreCase("BLUE") ? "http://localhost:8082" : "http://localhost:9082";
+                return environment.equalsIgnoreCase("BLUE") ? "http://chat-BLUE:8080" : "http://chat-GREEN:8080";
             default:
                 throw new IllegalArgumentException("Unknown service type: " + serviceType);
         }
