@@ -1,0 +1,28 @@
+spring:
+  profiles:
+    active: local
+
+springdoc:
+  use-fqn: true
+  api-docs:
+    version: openapi_3_1
+    enabled: true
+    path: /chats/v3/api-docs
+  swagger-ui:
+    operations-sorter: method
+    tags-sorter: alpha
+    display-request-duration: true
+
+auth:
+  kakao:
+    client_id: ${KAKAO_CLIENT_ID}
+    redirect_uri: ${KAKAO_REDIRECT_URI}
+    grant_type: ${KAKAO_GRANT_TYPE}
+    token_uri: ${KAKAO_TOKEN_URI}
+    user_info_uri: ${KAKAO_USER_INFO_URI}
+
+openai:
+  model: ${OPENAI_MODEL}
+  secret-key: ${OPENAI_SECRET_KEY}
+  chat-completions-url: ${OPENAI_CHAT_COMPLETIONS_URL}
+
