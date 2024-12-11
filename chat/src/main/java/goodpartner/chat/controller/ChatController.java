@@ -1,6 +1,7 @@
 package goodpartner.chat.controller;
 
 
+import goodpartner.chat.application.dto.request.ChatRequest;
 import goodpartner.chat.application.dto.response.ChatResponse;
 import goodpartner.chat.service.ChatService;
 import goodpartner.global.common.response.ResponseDto;
@@ -8,10 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -30,8 +28,8 @@ public class ChatController {
 
     //2.사용자 챗봇 질문하기
     @PostMapping("/chats")
-    public ResponseEntity<ResponseDto<ChatResponse>> askQuestion(@AuthenticationPrincipal String userId,@RequestParam String message){
-        ChatResponse response = chatService.saveChatAndGenerateResponse(userId, message);
+    public ResponseEntity<ResponseDto<ChatResponse>> askQuestion(@AuthenticationPrincipal String userId, @RequestBody ChatRequest dto){
+        ChatResponse response = chatService.saveChatAndGenerateResponse(userId, dto.message());
         return ResponseEntity.ok(ResponseDto.response(200,"사용자 챗봇 질문 및 응답 성공", response));
     }
 
