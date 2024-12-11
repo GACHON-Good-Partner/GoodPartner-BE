@@ -22,7 +22,7 @@ public class GatewayInitialRoutesConfig {
             // users 라우트 정의
             RouteDefinition usersRoute = new RouteDefinition();
             usersRoute.setId("users");
-            usersRoute.setUri(URI.create("http://localhost:8081"));
+            usersRoute.setUri(URI.create("http://user-BLUE:8080"));
             PredicateDefinition usersPredicate = new PredicateDefinition();
             usersPredicate.setName("Path");
             usersPredicate.addArg("pattern", "/users/**");
@@ -31,7 +31,7 @@ public class GatewayInitialRoutesConfig {
             // chats 라우트 정의
             RouteDefinition chatsRoute = new RouteDefinition();
             chatsRoute.setId("chats");
-            chatsRoute.setUri(URI.create("http://localhost:8082"));
+            chatsRoute.setUri(URI.create("http://chat-BLUE:8080"));
             PredicateDefinition chatsPredicate = new PredicateDefinition();
             chatsPredicate.setName("Path");
             chatsPredicate.addArg("pattern", "/chats/**");
