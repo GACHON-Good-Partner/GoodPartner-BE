@@ -22,6 +22,9 @@ public class OpenAIRecommendationProvider {
     @Value("${openai.model}")
     private String model;
 
+    @Value("${openai.fine-tuning-model}")
+    private String fineTuningModel;
+
     @Value("${openai.secret-key}")
     private String secretKey;
 
@@ -32,7 +35,12 @@ public class OpenAIRecommendationProvider {
 
     // 동적으로 프롬프트를 처리하는 메서드
     public OpenAIResponse getRecommendationWithPrompt(String prompt) {
-        Map<String, Object> requestBody = createRecommendationRequestBody(Message.createUserMessage(prompt));
+        Map<String, Object> requestBody = createRecommendationRequestBody(Message.createUserMessage(prompt), model);
+        return sendRequest(requestBody);
+    }
+
+    public OpenAIResponse getRecommendationWithFineTunedModel(String prompt) {
+        Map<String, Object> requestBody = createRecommendationRequestBody(Message.createUserMessage(prompt), fineTuningModel);
         return sendRequest(requestBody);
     }
 
@@ -64,7 +72,7 @@ public class OpenAIRecommendationProvider {
         }
     }
 
-    private Map<String, Object> createRecommendationRequestBody(Message userMessage) {
+    private Map<String, Object> createRecommendationRequestBody(Message userMessage, String model) {
         Map<String, Object> requestBody = new HashMap<>();
         requestBody.put("model", model);
         requestBody.put("messages", Message.createMessages(userMessage));
