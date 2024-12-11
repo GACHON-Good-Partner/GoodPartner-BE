@@ -2,6 +2,9 @@ spring:
   profiles:
     active: local
 
+server:
+  shutdown: graceful
+
 springdoc:
   use-fqn: true
   api-docs:
