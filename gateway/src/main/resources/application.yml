@@ -1,4 +1,18 @@
-spring:
-  profiles:
-    active: ${SPRING_PROFILES_ACTIVE:local}
+server:
+  port: 8080
 
+spring:
+  application:
+    name: api-gateway
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "gateway"   # gateway 엔드포인트 활성화
+  endpoint:
+    gateway:
+      enabled: true   # gateway 엔드포인트를 명시적으로 활성화
+
+security:
+  key: ${ADMIN_KEY}
