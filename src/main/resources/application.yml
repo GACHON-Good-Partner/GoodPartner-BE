@@ -28,5 +28,6 @@ auth:
 
 openai:
   model: ${OPENAI_MODEL}
+  fine-tuning-model: ${OPENAI_FINE_TUNING_MODEL}
   secret-key: ${OPENAI_SECRET_KEY}
   chat-completions-url: ${OPENAI_CHAT_COMPLETIONS_URL}
