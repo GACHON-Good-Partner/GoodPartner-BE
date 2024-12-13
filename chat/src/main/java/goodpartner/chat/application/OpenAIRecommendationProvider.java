@@ -2,6 +2,7 @@ package goodpartner.chat.application;
 
 import goodpartner.chat.application.dto.request.Message;
 import goodpartner.chat.application.dto.response.OpenAIResponse;
+import goodpartner.chat.entity.enums.Type;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,13 +35,14 @@ public class OpenAIRecommendationProvider {
     private final RestClient restClient = RestClient.create();
 
     // 동적으로 프롬프트를 처리하는 메서드
-    public OpenAIResponse getRecommendationWithPrompt(String prompt) {
-        Map<String, Object> requestBody = createRecommendationRequestBody(Message.createUserMessage(prompt), model);
+    public OpenAIResponse getRecommendationWithPrompt(String prompt, Type type) {
+        Map<String, Object> requestBody = createRecommendationRequestBody(Message.createUserMessage(prompt), model, type);
         return sendRequest(requestBody);
     }
 
-    public OpenAIResponse getRecommendationWithFineTunedModel(String prompt) {
-        Map<String, Object> requestBody = createRecommendationRequestBody(Message.createUserMessage(prompt), fineTuningModel);
+    public OpenAIResponse getRecommendationWithFineTunedModel(String prompt, Type type) {
+        Map<String, Object> requestBody = createRecommendationRequestBody(Message.createUserMessage(prompt), fineTuningModel, type);
+        log.info("GPT 질문: {}", requestBody);
         return sendRequest(requestBody);
     }
 
@@ -72,10 +74,10 @@ public class OpenAIRecommendationProvider {
         }
     }
 
-    private Map<String, Object> createRecommendationRequestBody(Message userMessage, String model) {
+    private Map<String, Object> createRecommendationRequestBody(Message userMessage, String model, Type type) {
         Map<String, Object> requestBody = new HashMap<>();
         requestBody.put("model", model);
-        requestBody.put("messages", Message.createMessages(userMessage));
+        requestBody.put("messages", Message.createMessages(userMessage, type));
         return requestBody;
     }
 }
