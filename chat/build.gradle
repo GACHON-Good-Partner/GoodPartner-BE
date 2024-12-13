@@ -28,6 +28,11 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
+    // SOAP
+    implementation 'org.springframework.ws:spring-ws-core'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework:spring-oxm:6.1.14'
+
     // Test
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
