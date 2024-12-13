@@ -36,6 +36,12 @@ public class ChatController {
         return ResponseEntity.ok(ResponseDto.response(200, "사용자 챗봇 질문 및 응답 성공", response));
     }
 
+    @PostMapping("/chats/test")
+    public ResponseEntity<ResponseDto<ChatResponse>> test(@AuthenticationPrincipal String userId, @RequestBody ChatRequest dto) throws Exception {
+        ChatResponse response = chatService.test(userId, dto.message());
+        return ResponseEntity.ok(ResponseDto.response(200, "사용자 챗봇 질문 및 응답 성공", response));
+    }
+
     //3.누적 질문수 조회
     @GetMapping("/chats/count")
     public ResponseEntity<ResponseDto<Long>> getTotalQuestions() {

@@ -56,19 +56,7 @@ public class ChatService {
                 .build();
         chatRepository.save(userChat);
 
-//        Chat response = Chat.builder()
-//                .userId(UUID.fromString(userId))
-//                .message(message)
-//                .status(Chat.Status.RESPONSE)
-//                .build();
-//        chatRepository.save(response);
-//
-//        return ChatResponse.from(response);
-
-        /*
-        todo API 테스트 후 원복하기
-         */
-//         OpenAI 호출 및 응답 생성
+        // OpenAI 호출 및 응답 생성
         OpenAIResponse response = openAIRecommendationProvider.getRecommendationWithFineTunedModel(message, Type.REQUEST);
         String aiResponseMessage = response.choices().get(0).message().getContent();
 
@@ -102,6 +90,27 @@ public class ChatService {
                 .toList();
 
         return ChatResponse.from(responseChat, keywordResponses);
+    }
+
+    @Transactional
+    public ChatResponse test(String userId, String message) throws Exception {
+        // 사용자 질문 저장
+        Chat userChat = Chat.builder()
+                .userId(UUID.fromString(userId))
+                .message(message)
+                .status(Chat.Status.REQUEST)
+                .build();
+        chatRepository.save(userChat);
+
+        Chat response = Chat.builder()
+                .userId(UUID.fromString(userId))
+                .message(message)
+                .status(Chat.Status.RESPONSE)
+                .build();
+
+        chatRepository.save(response);
+
+        return ChatResponse.from(response, null);
     }
 
     //3.사용자 누적 질문수 조회
