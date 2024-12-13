@@ -30,3 +30,7 @@ openai:
   fine-tuning-model: ${OPENAI_FINE_TUNING_MODEL}
   chat-completions-url: ${OPENAI_CHAT_COMPLETIONS_URL}
 
+open_api:
+  key: ${SERVICE_KEY}
+  url: ${OPEN_API_URL}
+
