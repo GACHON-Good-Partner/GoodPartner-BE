@@ -50,6 +50,8 @@ public class SoapClient {
                 .retrieve()
                 .body(String.class);
 
+        log.info("responseXml: {}", responseXml);
+
         return parseResponse(responseXml, chat);
     }
 
@@ -87,20 +89,30 @@ public class SoapClient {
         XPathFactory xPathFactory = XPathFactory.newInstance();
         XPath xPath = xPathFactory.newXPath();
 
-        XPathExpression expr = xPath.compile("//SearchAskNoticeListItem");
+        // XPath 수정: 올바른 태그 경로 지정
+        XPathExpression expr = xPath.compile("//SearchLifeAreaListItem");
         NodeList itemList = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
+
+        if (itemList == null || itemList.getLength() == 0) {
+            log.warn("XPath로 검색된 데이터가 없습니다.");
+            return results;
+        }
 
         for (int i = 0; i < itemList.getLength(); i++) {
             Element itemElement = (Element) itemList.item(i);
 
-            String csmTtl = getTagValue("csmTtl", itemElement);
-            String titleLink = getTagValue("titleLink", itemElement);
+            String csmTtl = getTagValue("csmTtl", itemElement); // 제목
+            String titleLink = getTagValue("titleLink", itemElement); // 링크
 
-            if (csmTtl != null && titleLink != null) {
-                results.add(Keyword.of(csmTtl, titleLink, chat));
+            if (csmTtl == null || titleLink == null) {
+                log.warn("csmTtl 또는 titleLink 값이 없습니다. 항목을 스킵합니다.");
+                continue;
             }
+
+            results.add(Keyword.of(csmTtl, titleLink, chat));
         }
 
+        log.info("파싱된 키워드 결과: {}", results);
         return results;
     }
 
