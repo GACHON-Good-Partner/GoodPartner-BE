@@ -9,10 +9,14 @@ management:
   endpoints:
     web:
       exposure:
-        include: "gateway"   # gateway 엔드포인트 활성화
+        include: gateway, health, info, metrics, prometheus
   endpoint:
     gateway:
-      enabled: true   # gateway 엔드포인트를 명시적으로 활성화
+      enabled: true
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
 
 security:
   key: ${ADMIN_KEY}

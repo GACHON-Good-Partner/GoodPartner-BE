@@ -34,3 +34,15 @@ open_api:
   key: ${SERVICE_KEY}
   url: ${OPEN_API_URL}
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, metrics, prometheus
+  endpoint:
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
+
+
